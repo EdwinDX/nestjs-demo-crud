@@ -37,4 +37,15 @@ export class CoursesService {
             resolve(this.courses);
         })
     }
+    updateCourse(courseId: number, course: { id: number; title: string; description: string; author: string; url: string; }): Promise<any> {
+        const id = Number(courseId);
+        return new Promise(resolve => {
+            const index = this.courses.findIndex(course => course.id === id);
+            if (index === -1) {
+                throw new HttpException('Course does not exist', 404);
+            }
+            this.courses[index] = course;
+            resolve(this.courses);
+        })
+    }
 }

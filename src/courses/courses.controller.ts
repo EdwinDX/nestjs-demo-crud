@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './create-course.dto';
 
@@ -12,7 +12,7 @@ export class CoursesController {
         return courses;
     }
     @Get(':courseId')
-    async getCourse(@Param('courseId') courseId) {
+    async getCourse(@Param('courseId') courseId: number) {
         const course = await this.coursesService.getCourse(courseId);
         return course;
     }
@@ -24,6 +24,11 @@ export class CoursesController {
     @Delete()
     async deleteCourse(@Query() query) {
         const courses = await this.coursesService.deleteCourse(query.courseId);
+        return courses;
+    }
+    @Put(':courseId')
+    async updateCourse(@Body() updateCourse: CreateCourseDto, @Param('courseId') courseId: number) {
+        const courses = await this.coursesService.updateCourse(courseId,updateCourse);
         return courses;
     }
 }
